@@ -2,6 +2,7 @@ import pygame
 
 from settings import *
 from player import *
+from camera import *
 
 class Game():
 
@@ -14,15 +15,19 @@ class Game():
 
         pygame.display.set_caption("Race")
 
-        self.player = Player(pos = (SCREEN_WIDTH/2, SCREEN_HEIGHT/2))
+        self.camera_group = CameraGroup()
+        self.player = Player(pos = (SCREEN_HEIGHT // 2, SCREEN_WIDTH // 2), group = self.camera_group)
     
     def run(self):
 
         while True:
             self.screen.fill("black")
 
-            self.player.draw(self.screen)
-            self.player.update()
+            # self.player.draw(self.screen)
+            # self.player.update()
+
+            self.camera_group.update()
+            self.camera_group.draw(self.player)
 
             pygame.display.flip()
             self.clock.tick(60)
