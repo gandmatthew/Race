@@ -1,4 +1,5 @@
 import pygame
+import math
 
 from settings import *
 from player import *
@@ -8,7 +9,7 @@ from tile import *
 class Game():
 
     def __init__(self):
-
+        
         pygame.init()
 
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -21,10 +22,13 @@ class Game():
         self.collision_sprites = pygame.sprite.Group()
         self.camera_group = CameraGroup()
 
-        for i in range(0, 5):
-            Barricade(pos = (SCREEN_HEIGHT // 2 + (i * 32), SCREEN_WIDTH // 2), group = [self.camera_group, self.collision_sprites])
-        for i in range(10, 15):
-            Barricade(pos = (SCREEN_HEIGHT // 2 + (i * 32), SCREEN_WIDTH // 2), group = [self.camera_group, self.collision_sprites])
+        r = 20
+
+        for x in range(0, r):
+            y = round(math.sqrt(pow(r, 2) - pow(x, 2)))
+            print(x, y)
+            Barricade(pos = (SCREEN_HEIGHT // 2 + (x * 32) - 50, SCREEN_WIDTH // 2 + (y * 32)), group = [self.camera_group, self.collision_sprites])
+            Barricade(pos = (-(SCREEN_HEIGHT // 2 + (x * 32) - 50), SCREEN_WIDTH // 2 + (y * 32)), group = [self.camera_group, self.collision_sprites])
 
         self.player = Player(pos = (SCREEN_HEIGHT // 2 - 32, SCREEN_WIDTH // 2 - 32), group = self.camera_group, obstacles = self.collision_sprites)
 
